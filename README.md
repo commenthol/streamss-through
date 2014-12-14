@@ -2,7 +2,7 @@
 
 > A sync/async stream2 transformer
 
-
+![NPM version](https://badge.fury.io/js/streamss-through.svg) ![Build Status](https://secure.travis-ci.org/commenthol/streamss-through.svg?branch=master)
 
 Documentation is on its way :)
 

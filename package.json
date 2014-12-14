@@ -1,0 +1,36 @@
+{
+  "name": "streamss-through",
+  "description": "A sync/async stream2 transformer",
+  "version": "0.0.1",
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "readable-stream": "~1.0.33"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha test/*.mocha.js",
+    "lint": "jshint *.js test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/commenthol/streamss-through"
+  },
+  "keywords": [
+    "stream2",
+    "transform",
+    "through"
+  ],
+  "author": "commenthol <commenthol@gmail.com>",
+  "maintainers": "commenthol <commenthol@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/commenthol/streamss-through/issues"
+  },
+  "homepage": "https://github.com/commenthol/streamss-through"
+}

@@ -2,11 +2,12 @@
 
 > A sync/async stream2 transformer
 
-![NPM version](https://badge.fury.io/js/streamss-through.svg) ![Build Status](https://secure.travis-ci.org/commenthol/streamss-through.svg?branch=master)
+![NPM version](https://badge.fury.io/js/streamss-through.svg)
+[![Build Status](https://secure.travis-ci.org/commenthol/streamss-through.svg?branch=master)](https://travis-ci.org/commenthol/streamss-through)
 
-Works with node v0.8 and greater.
-For node v0.8 the user-land copy [`readable-stream`][readable-stream] is used.
-For all other node version greater v0.8 the built-in `stream` module is used.
+Works with node v0.8.x and greater.
+For node v0.8.x the user-land copy [`readable-stream`][readable-stream] is used.
+For all other node versions greater v0.8.x the built-in `stream` module is used.
 
 `Through` can be used in synchronous mode with:
 

@@ -7,12 +7,10 @@
 
 /*global describe, it*/
 
-require('../shim');
-
 var fs = require('fs'),
 	assert = require('assert'),
 	util = require('util'),
-	Readable = require('stream').Readable,
+	Readable = require('streamss-shim').Readable,
 	Through = require('../index');
 
 describe('#Through', function(){

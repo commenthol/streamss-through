@@ -5,10 +5,8 @@
 
 'use strict';
 
-require('./shim');
-
 var util = require('util'),
-	Transform = require('stream').Transform,
+	Transform = require('streamss-shim').Transform,
 	extend = util._extend;
 
 /// wrappers for sync mode

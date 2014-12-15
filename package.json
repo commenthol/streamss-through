@@ -1,7 +1,7 @@
 {
   "name": "streamss-through",
   "description": "A sync/async stream2 transformer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "engines": {
     "node": ">=0.8.0"
@@ -10,7 +10,7 @@
     "test": "test"
   },
   "dependencies": {
-    "readable-stream": "~1.0.33"
+    "streamss-shim": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1"

@@ -42,14 +42,14 @@ or in asynchronous mode:
 
 **Parameters:**
 
-- `{Object} [options]` : Stream options
-- `{Boolean} options.objectMode:` Whether this stream should behave as a stream of objects. Default=false
-- `{Number} options.highWaterMark:` The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Default=16kb
-- `{String} options.encoding:` Set encoding for string-decoder
-- `{Boolean} options.decodeStrings:` Do not decode strings if set to `false`. Default=true
-- `{Boolean} options.passError:` Pass error to next pipe. Default=true
-- `{Function} transform` : Function called on transform
-- `{Function} flush` : Function called on flush
+- `{Object} [options]` - Stream options
+- `{Boolean} options.objectMode` - Whether this stream should behave as a stream of objects. Default=false
+- `{Number} options.highWaterMark` - The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Default=16kb
+- `{String} options.encoding` - Set encoding for string-decoder
+- `{Boolean} options.decodeStrings` - Do not decode strings if set to `false`. Default=true
+- `{Boolean} options.passError` - Pass error to next pipe. Default=true
+- `{Function} transform` - Function called on transform
+- `{Function} flush` - Function called on flush
 
 ## Through.obj([options], transform, flush)
 
@@ -57,9 +57,9 @@ or in asynchronous mode:
 
 **Parameters:**
 
-- `{Object} [options]` : Stream options
-- `{Function} transform` : Function called on transform
-- `{Function} flush` : Function called on flush
+- `{Object} [options]` - Stream options
+- `{Function} transform` - Function called on transform
+- `{Function} flush` - Function called on flush
 
 
 ### Example:
@@ -98,7 +98,7 @@ all code is your original work.
 
 ## License
 
-Copyright (c) 2014-, Commenthol. (MIT License)
+Copyright (c) 2014-2015, Commenthol. (MIT License)
 
 See [LICENSE][] for more info.
 

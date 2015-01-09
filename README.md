@@ -2,7 +2,7 @@
 
 > A sync/async stream2 transformer
 
-![NPM version](https://badge.fury.io/js/streamss-through.svg)
+[![NPM version](https://badge.fury.io/js/streamss-through.svg)](https://www.npmjs.com/package/streamss-through/)
 [![Build Status](https://secure.travis-ci.org/commenthol/streamss-through.svg?branch=master)](https://travis-ci.org/commenthol/streamss-through)
 
 Works with node v0.8.x and greater.
@@ -92,9 +92,10 @@ Check out the [tests](./test/index.mocha.js) for more examples.
 
 ## Contribution and License Agreement
 
-If you contribute code to this project, you are implicitly allowing your code
-to be distributed under the MIT license. You are also implicitly verifying that
-all code is your original work.
+If you contribute code to this project, you are implicitly allowing your
+code to be distributed under the MIT license. You are also implicitly
+verifying that all code is your original work or correctly attributed
+with the source of its origin and licence.
 
 ## License
 

@@ -6,36 +6,37 @@
 [![Build Status](https://secure.travis-ci.org/commenthol/streamss-through.svg?branch=master)](https://travis-ci.org/commenthol/streamss-through)
 
 Works with node v0.8.x and greater.
-For node v0.8.x the user-land copy [`readable-stream`][readable-stream] is used.
+For node v0.8.x the user-land copy [readable-stream][] is used.
 For all other node versions greater v0.8.x the built-in `stream` module is used.
 
 `Through` can be used in synchronous mode with:
 
 ```javascript
 process.stdin
-	.pipe(Through(
-		function transform (data){
-			// synchronous mode
-		},
-		function flush (){
-			// synchronous mode
-		}
-	))
+.pipe(Through(
+	function transform (data){
+		// synchronous mode
+	},
+	function flush (){
+		// synchronous mode
+	}
+))
 ```
 
 or in asynchronous mode:
 
 ```javascript
-	.pipe(Through(
-		function transform (data, enc, done){
-			// asynchronous mode
-			done(); // explicit call of done required
-		},
-		function flush (done){
-			// asynchronous mode
-			done(); // explicit call of done required
-		}
-	))
+process.stdin
+.pipe(Through(
+	function transform (data, enc, done){
+		// asynchronous mode
+		done(); // explicit call of done required
+	},
+	function flush (done){
+		// asynchronous mode
+		done(); // explicit call of done required
+	}
+))
 ```
 
 ## Through([options], transform, flush)
@@ -69,23 +70,23 @@ var Through = require('streamss-through');
 var cnt = 0;
 
 require('fs').createReadStream(__filename, { encoding: 'utf8', highWaterMark: 30 })
-	.pipe(Through(
-		{ decodeStrings: false },
-		function transform(str) {
-			cnt += 1;
-			this.push(str.replace(/\s/g, '‧') + '\n');
-		},
-		function flush() {
-			console.log('\ncounted num of chunks: ' + cnt);
-		}
-	))
-	.pipe(process.stdout);
+.pipe(Through(
+	{ decodeStrings: false },
+	function transform(str) {
+		cnt += 1;
+		this.push(str.replace(/\s/g, '‧') + '\n');
+	},
+	function flush() {
+		console.log('\ncounted num of chunks: ' + cnt);
+	}
+))
+.pipe(process.stdout);
 ```
 
 Try it with:
 
 ```bash
-npm run try
+node examples/test.js
 ```
 
 Check out the [tests](./test/index.mocha.js) for more examples.

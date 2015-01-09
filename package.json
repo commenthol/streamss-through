@@ -19,8 +19,7 @@
     "test": "mocha test/*.mocha.js",
     "cover": "istanbul cover _mocha --report lcov --report text -- -R dot --check-leaks test/*.mocha.js",
     "lint": "jshint --show-non-errors *.js */*.js",
-    "doc": "jsdoc -d doc -c jsdoc.json index.js",
-    "try": "node examples/test.js"
+    "doc": "jsdoc -d doc -c jsdoc.json index.js"
   },
   "repository": {
     "type": "git",

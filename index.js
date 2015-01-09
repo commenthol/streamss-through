@@ -55,12 +55,12 @@ function Through(options, transform, flush) {
 	options = options || {};
 	Transform.call(this, options);
 
-    if (typeof transform !== 'function') {
+	if (typeof transform !== 'function') {
 		transform = function(data){
 			this.push(data);
 		};
 	}
-    if (typeof flush !== 'function') {
+	if (typeof flush !== 'function') {
 		flush = null;
 	}
 

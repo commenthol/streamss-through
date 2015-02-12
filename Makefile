@@ -1,10 +1,6 @@
-all: 0.8 0.10 0.11
+all: 0.8 0.10 0.11 0.12
 
-0.8:
-	n 0.8 && npm test
+%:
+	n $@ && npm test
 
-0.10:
-	n 0.10 && npm test
-
-0.11:
-	n 0.11 && npm test
+.PHONY: all

@@ -4,27 +4,27 @@
  * @licence MIT
  */
 
-'use strict';
+'use strict'
 
-var util = require('util'),
-	Transform = require('streamss-shim').Transform,
-	extend = util._extend;
+var util = require('util')
+var Transform = require('streamss-shim').Transform
+var extend = util._extend
 
-/// wrappers for sync mode
+// / wrappers for sync mode
 var wrap = {
-	transform: function(fn) {
-		return function (chunk, enc, done) {
-			fn.call(this, chunk, enc);
-			done();
-		};
-	},
-	flush: function(fn) {
-		return function (done) {
-			fn.call(this);
-			done();
-		};
-	}
-};
+  transform: function (fn) {
+    return function (chunk, enc, done) {
+      fn.call(this, chunk, enc)
+      done()
+    }
+  },
+  flush: function (fn) {
+    return function (done) {
+      fn.call(this)
+      done()
+    }
+  }
+}
 
 /**
  * Stream transformer with functional API
@@ -39,53 +39,53 @@ var wrap = {
  * @param {Function} [transform] - Function called on transform
  * @param {Function} [flush] - Function called on flush
  */
-function Through(options, transform, flush) {
-	var self = this;
+function Through (options, transform, flush) {
+  var self = this
 
-	if (!(this instanceof Through)) {
-		return new Through(options, transform, flush);
-	}
+  if (!(this instanceof Through)) {
+    return new Through(options, transform, flush)
+  }
 
-	if (typeof options === 'function') {
-		flush = transform;
-		transform = options;
-		options = {};
-	}
+  if (typeof options === 'function') {
+    flush = transform
+    transform = options
+    options = {}
+  }
 
-	options = options || {};
-	Transform.call(this, options);
+  options = options || {}
+  Transform.call(this, options)
 
-	if (typeof transform !== 'function') {
-		transform = function(data){
-			this.push(data);
-		};
-	}
-	if (typeof flush !== 'function') {
-		flush = null;
-	}
+  if (typeof transform !== 'function') {
+    transform = function (data) {
+      this.push(data)
+    }
+  }
+  if (typeof flush !== 'function') {
+    flush = null
+  }
 
-	this._transform = transform;
-	this._flush = flush;
+  this._transform = transform
+  this._flush = flush
 
-	self.on('pipe', function(src) {
-		if (options.passError !== false) {
-			src.on('error', function(err) {
-				self.emit('error', err);
-			});
-		}
-	});
+  self.on('pipe', function (src) {
+    if (options.passError !== false) {
+      src.on('error', function (err) {
+        self.emit('error', err)
+      })
+    }
+  })
 
-	if (this._transform.length < 3) {
-		this._transform = wrap.transform.call(this, transform);
-	}
-	if (this._flush && this._flush.length < 1) {
-		this._flush = wrap.flush.call(this, flush);
-	}
+  if (this._transform.length < 3) {
+    this._transform = wrap.transform.call(this, transform)
+  }
+  if (this._flush && this._flush.length < 1) {
+    this._flush = wrap.flush.call(this, flush)
+  }
 
-	return this;
+  return this
 }
 
-util.inherits(Through, Transform);
+util.inherits(Through, Transform)
 
 /**
  * Shortcut for object mode
@@ -95,14 +95,14 @@ util.inherits(Through, Transform);
  * @param {Function} flush - Function called on flush
  */
 Through.obj = function (options, transform, flush) {
-	// istanbul ignore else
-	if (typeof options === 'function') {
-		flush = transform;
-		transform = options;
-		options = {};
-	}
-	options = extend({ objectMode: true }, options);
-	return new Through(options, transform, flush);
-};
+  // istanbul ignore else
+  if (typeof options === 'function') {
+    flush = transform
+    transform = options
+    options = {}
+  }
+  options = extend({ objectMode: true }, options)
+  return new Through(options, transform, flush)
+}
 
-module.exports = Through;
+module.exports = Through

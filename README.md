@@ -14,12 +14,12 @@ For all other node versions greater v0.8.x the built-in `stream` module is used.
 ```javascript
 process.stdin
 .pipe(Through(
-	function transform (data){
-		// synchronous mode
-	},
-	function flush (){
-		// synchronous mode
-	}
+  function transform (data){
+    // synchronous mode
+  },
+  function flush (){
+    // synchronous mode
+  }
 ))
 ```
 
@@ -28,14 +28,14 @@ or in asynchronous mode:
 ```javascript
 process.stdin
 .pipe(Through(
-	function transform (data, enc, done){
-		// asynchronous mode
-		done(); // explicit call of done required
-	},
-	function flush (done){
-		// asynchronous mode
-		done(); // explicit call of done required
-	}
+  function transform (data, enc, done){
+    // asynchronous mode
+    done(); // explicit call of done required
+  },
+  function flush (done){
+    // asynchronous mode
+    done(); // explicit call of done required
+  }
 ))
 ```
 
@@ -71,14 +71,14 @@ var cnt = 0;
 
 require('fs').createReadStream(__filename, { encoding: 'utf8', highWaterMark: 30 })
 .pipe(Through(
-	{ decodeStrings: false },
-	function transform(str) {
-		cnt += 1;
-		this.push(str.replace(/\s/g, '‧') + '\n');
-	},
-	function flush() {
-		console.log('\ncounted num of chunks: ' + cnt);
-	}
+  { decodeStrings: false },
+  function transform(str) {
+    cnt += 1;
+    this.push(str.replace(/\s/g, '‧') + '\n');
+  },
+  function flush() {
+    console.log('\ncounted num of chunks: ' + cnt);
+  }
 ))
 .pipe(process.stdout);
 ```
@@ -100,7 +100,7 @@ with the source of its origin and licence.
 
 ## License
 
-Copyright (c) 2014-2015, Commenthol. (MIT License)
+Copyright (c) 2014- Commenthol. (MIT License)
 
 See [LICENSE][] for more info.
 

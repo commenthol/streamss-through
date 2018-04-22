@@ -1,41 +1,35 @@
 {
   "name": "streamss-through",
+  "version": "1.0.0-1",
   "description": "A sync/async stream2 transformer",
-  "version": "0.2.1",
-  "main": "index.js",
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "author": "commenthol <commenthol@gmail.com>",
-  "maintainers": "commenthol <commenthol@gmail.com>",
-  "license": "MIT",
+  "keywords": [
+    "stream2",
+    "through",
+    "transform"
+  ],
+  "homepage": "https://github.com/commenthol/streamss-through",
   "bugs": {
     "url": "https://github.com/commenthol/streamss-through/issues"
   },
-  "homepage": "https://github.com/commenthol/streamss-through",
+  "license": "MIT",
+  "author": "commenthol <commenthol@gmail.com>",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "repository": {
     "type": "git",
     "url": "github.com/commenthol/streamss-through"
   },
-  "keywords": [
-    "stream2",
-    "transform",
-    "through"
-  ],
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "mocha test/*.mocha.js",
-    "cover": "istanbul cover _mocha --report lcov --report text -- -R dot --check-leaks test/*.mocha.js",
+    "all": "npm run clean && npm run lint && npm test",
+    "clean": "rimraf coverage .nyc_output",
+    "clean:all": "rimraf node_modules && npm run clean",
+    "coverage": "nyc -r text -r html npm test",
+    "doc": "jsdoc -d doc -c jsdoc.json index.js",
     "lint": "eslint '**/*.js'",
-    "doc": "jsdoc -d doc -c jsdoc.json index.js"
-  },
-  "dependencies": {
-    "streamss-shim": "~0.0.2"
-  },
-  "devDependencies": {
-    "mocha": "~3.2.0"
+    "prepublishOnly": "npm run all",
+    "test": "mocha"
   },
   "eslintConfig": {
     "extends": "standard",
@@ -43,5 +37,22 @@
       "standard"
     ],
     "rules": {}
-  }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "rimraf": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=4.5.0"
+  },
+  "maintainers": [
+    "commenthol <commenthol@gmail.com>"
+  ]
 }

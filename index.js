@@ -7,8 +7,7 @@
 'use strict'
 
 var util = require('util')
-var Transform = require('streamss-shim').Transform
-var extend = util._extend
+var Transform = require('stream').Transform
 
 // / wrappers for sync mode
 var wrap = {
@@ -101,7 +100,7 @@ Through.obj = function (options, transform, flush) {
     transform = options
     options = {}
   }
-  options = extend({ objectMode: true }, options)
+  options = Object.assign({ objectMode: true }, options)
   return new Through(options, transform, flush)
 }
 

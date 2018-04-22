@@ -1,6 +1,11 @@
 node_modules/
 coverage/
-doc/
+/test
+/doc
+jsdoc.json
+Makefile
 .**
 *.tgz
 *.log
+.nyc_output/
+examples/

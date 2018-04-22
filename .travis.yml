@@ -1,9 +1,9 @@
+sudo: false
 language: node_js
 
 node_js:
-  - 0.12
-  - 4.7
-  - 6.9
+  - 4
+  - 8
   - node
 
 script:

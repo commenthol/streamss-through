@@ -1,6 +1,6 @@
 {
   "name": "streamss-through",
-  "version": "1.0.0-1",
+  "version": "1.0.0",
   "description": "A sync/async stream2 transformer",
   "keywords": [
     "stream2",

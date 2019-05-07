@@ -91,7 +91,7 @@ describe('#Through', function () {
           this.push(chunk)
         },
         function flush () {
-          assert.equal(cnt, 12)
+          assert.strictEqual(cnt, 12)
           testDone()
         }
       ))
@@ -113,8 +113,8 @@ describe('#Through', function () {
         function transform (chunk, enc, done) { // asynchronous type - `done()` required
           var self = this
 
-          assert.equal(typeof chunk, 'string')
-          assert.equal(enc, 'utf8')
+          assert.strictEqual(typeof chunk, 'string')
+          assert.strictEqual(enc, 'utf8')
 
           // count newlines
           chunk.replace(/\n/g, function () {
@@ -126,7 +126,7 @@ describe('#Through', function () {
           }, 5)
         },
         function flush (done) {
-          assert.equal(cnt, 12)
+          assert.strictEqual(cnt, 12)
           done()
           testDone()
         }
@@ -149,16 +149,16 @@ describe('#Through', function () {
       self.push(null)
     };
 
-    (Reader({objectMode: true}, read))
+    (Reader({ objectMode: true }, read))
       .pipe(Through.obj(
         function (data) {
-          assert.equal(data[cnt], arr[cnt][cnt])
+          assert.strictEqual(data[cnt], arr[cnt][cnt])
           cnt += 1
         }
       )
       )
       .on('finish', function () {
-        assert.equal(cnt, arr.length)
+        assert.strictEqual(cnt, arr.length)
         testDone()
       })
   })
@@ -188,7 +188,7 @@ describe('#Through', function () {
         }
       ))
       .on('error', function (err) {
-        assert.equal(err.message, 'bang')
+        assert.strictEqual(err.message, 'bang')
         testDone()
       })
   })
@@ -214,7 +214,7 @@ describe('#Through', function () {
         }
       ))
       .on('error', function (err) {
-        assert.equal(err.message, 'bang')
+        assert.strictEqual(err.message, 'bang')
         setTimeout(function () {
           assert.ok(reached === true)
           testDone()
@@ -235,7 +235,7 @@ describe('#Through', function () {
     var stream = new Through()
 
     stream.pipe(Through(function (data) {
-      assert.equal(data, str)
+      assert.strictEqual(data.toString(), str)
       testDone()
     }))
 

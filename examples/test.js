@@ -1,8 +1,8 @@
-var Through = require('..')
-var cnt = 0
+const { through } = require('..')
+let cnt = 0
 
 require('fs').createReadStream(__filename, { encoding: 'utf8', highWaterMark: 30 })
-  .pipe(Through(
+  .pipe(through(
     { decodeStrings: false },
     function transform (str) {
       cnt += 1

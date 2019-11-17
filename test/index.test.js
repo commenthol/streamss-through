@@ -5,16 +5,15 @@
 
 'use strict'
 
-/* global describe, it */
+const fs = require('fs')
+const path = require('path')
+const assert = require('assert')
+const util = require('util')
+const Readable = require('stream').Readable
+const Through = require('../index')
+const { through, throughObj } = Through
 
-var fs = require('fs')
-var path = require('path')
-var assert = require('assert')
-var util = require('util')
-var Readable = require('stream').Readable
-var Through = require('../index')
-
-var testTxt = path.resolve(__dirname, 'test.txt')
+const testTxt = path.resolve(__dirname, 'test.txt')
 
 // a simple read stream
 function Reader (options, read) {
@@ -30,32 +29,31 @@ util.inherits(Reader, Readable)
 // tests
 describe('#Through', function () {
   it('with new operator', function () {
-    var through = new Through()
+    const through = new Through()
     assert.ok(through instanceof Through)
   })
 
-  it('without new operator', function () {
-    var through = Through()
-    assert.ok(through instanceof Through)
+  it('with static function', function () {
+    const _through = through()
+    assert.ok(_through instanceof Through)
   })
 
   it('no functions', function (testDone) {
-    var through = Through()
-    var rs = fs.createReadStream(testTxt)
+    const rs = fs.createReadStream(testTxt)
 
     rs
-      .pipe(through)
+      .pipe(through())
       .on('end', function () {
         testDone()
       })
-      .pipe(Through())
+      .pipe(through())
   })
 
   it('only flush - sync mode', function (testDone) {
-    var rs = fs.createReadStream(testTxt)
+    const rs = fs.createReadStream(testTxt)
 
     rs
-      .pipe(Through(
+      .pipe(through(
         function transform () {},
         function flush () {
           testDone()
@@ -64,10 +62,10 @@ describe('#Through', function () {
   })
 
   it('only flush - async mode', function (testDone) {
-    var rs = fs.createReadStream(testTxt)
+    const rs = fs.createReadStream(testTxt)
 
     rs
-      .pipe(Through(
+      .pipe(through(
         function transform () {},
         function flush (done) {
           done()
@@ -77,11 +75,11 @@ describe('#Through', function () {
   })
 
   it('push through - sync mode', function (testDone) {
-    var cnt = 0
-    var rs = fs.createReadStream(testTxt)
+    let cnt = 0
+    const rs = fs.createReadStream(testTxt)
 
     rs
-      .pipe(Through(
+      .pipe(through(
         function transform (chunk) { // synchronous type - no `done()` required
         // count newlines
           chunk.toString().replace(/\n/g, function () {
@@ -98,20 +96,20 @@ describe('#Through', function () {
   })
 
   it('push through - async mode', function (testDone) {
-    var cnt = 0
-    var rs = fs.createReadStream(testTxt)
+    let cnt = 0
+    const rs = fs.createReadStream(testTxt)
 
     rs
-      .pipe(Through(
+      .pipe(through(
         { encoding: 'utf8' }, // work with strings only
         function (chunk) {
           this.push(chunk)
         }
       ))
-      .pipe(Through(
+      .pipe(through(
         { decodeStrings: false },
         function transform (chunk, enc, done) { // asynchronous type - `done()` required
-          var self = this
+          const self = this
 
           assert.strictEqual(typeof chunk, 'string')
           assert.strictEqual(enc, 'utf8')
@@ -134,15 +132,15 @@ describe('#Through', function () {
   })
 
   it('object mode', function (testDone) {
-    var cnt = 0
-    var arr = [
+    let cnt = 0
+    const arr = [
       { 0: 'zero' },
       { 1: 'one' },
       { 2: 'two' },
       { 3: 'three' }
     ]
-    var read = function () {
-      var self = this
+    const read = function () {
+      const self = this
       arr.forEach(function (obj) {
         self.push(obj)
       })
@@ -150,7 +148,7 @@ describe('#Through', function () {
     };
 
     (Reader({ objectMode: true }, read))
-      .pipe(Through.obj(
+      .pipe(throughObj(
         function (data) {
           assert.strictEqual(data[cnt], arr[cnt][cnt])
           cnt += 1
@@ -164,16 +162,16 @@ describe('#Through', function () {
   })
 
   it('throw error', function (testDone) {
-    var cnt = 0
-    var read = function () {
-      for (var i = 0; i < 100; i++) {
+    let cnt = 0
+    const read = function () {
+      for (let i = 0; i < 100; i++) {
         this.push(i + '')
       }
       this.push(null)
     };
 
     (Reader({}, read))
-      .pipe(Through(
+      .pipe(through(
         function transform (chunk) {
           this.push(chunk)
           cnt += 1
@@ -182,7 +180,7 @@ describe('#Through', function () {
           }
         }
       ))
-      .pipe(Through(
+      .pipe(through(
         function transform (chunk) {
           this.push(chunk)
         }
@@ -194,17 +192,17 @@ describe('#Through', function () {
   })
 
   it('throw error passError=false', function (testDone) {
-    var cnt = 0
-    var reached = false
-    var read = function () {
-      for (var i = 0; i < 100; i++) {
+    let cnt = 0
+    let reached = false
+    const read = function () {
+      for (let i = 0; i < 100; i++) {
         this.push(i + '')
       }
       this.push(null)
     };
 
     (Reader({}, read))
-      .pipe(Through(
+      .pipe(through(
         function transform (chunk) {
           this.push(chunk)
           cnt += 1
@@ -220,7 +218,7 @@ describe('#Through', function () {
           testDone()
         }, 10)
       })
-      .pipe(Through(
+      .pipe(through(
         { passError: false },
         function transform (chunk) {
           reached = true
@@ -231,10 +229,10 @@ describe('#Through', function () {
   })
 
   it('write data', function (testDone) {
-    var str = 'writing here'
-    var stream = new Through()
+    const str = 'writing here'
+    const stream = new Through()
 
-    stream.pipe(Through(function (data) {
+    stream.pipe(through(function (data) {
       assert.strictEqual(data.toString(), str)
       testDone()
     }))

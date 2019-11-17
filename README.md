@@ -5,15 +5,15 @@
 [![NPM version](https://badge.fury.io/js/streamss-through.svg)](https://www.npmjs.com/package/streamss-through/)
 [![Build Status](https://secure.travis-ci.org/commenthol/streamss-through.svg?branch=master)](https://travis-ci.org/commenthol/streamss-through)
 
-Works with node v0.8.x and greater.
-For node v0.8.x the user-land copy [readable-stream][] is used.
-For all other node versions greater v0.8.x the built-in `stream` module is used.
+Works with node v8.x and greater.
 
 `Through` can be used in synchronous mode with:
 
-```javascript
+```js
+const { through } = require('streamss-through')
+
 process.stdin
-.pipe(Through(
+.pipe(through(
   function transform (data){
     // synchronous mode
   },
@@ -25,16 +25,18 @@ process.stdin
 
 or in asynchronous mode:
 
-```javascript
+```js
+const { through } = require('streamss-through')
+
 process.stdin
-.pipe(Through(
+.pipe(through(
   function transform (data, enc, done){
     // asynchronous mode
-    done(); // explicit call of done required
+    done() // explicit call of done required
   },
   function flush (done){
     // asynchronous mode
-    done(); // explicit call of done required
+    done() // explicit call of done required
   }
 ))
 ```
@@ -52,7 +54,7 @@ process.stdin
 - `{Function} transform` - Function called on transform
 - `{Function} flush` - Function called on flush
 
-## Through.obj([options], transform, flush)
+## throughObj([options], transform, flush)
 
 > Shortcut for object mode
 
@@ -66,21 +68,21 @@ process.stdin
 ### Example:
 
 ```javascript
-var Through = require('streamss-through');
-var cnt = 0;
+const { through } = require('streamss-through')
+let cnt = 0
 
 require('fs').createReadStream(__filename, { encoding: 'utf8', highWaterMark: 30 })
-.pipe(Through(
+.pipe(through(
   { decodeStrings: false },
   function transform(str) {
-    cnt += 1;
-    this.push(str.replace(/\s/g, '‧') + '\n');
+    cnt += 1
+    this.push(str.replace(/\s/g, '‧') + '\n')
   },
   function flush() {
-    console.log('\ncounted num of chunks: ' + cnt);
+    console.log('\ncounted num of chunks: ' + cnt)
   }
 ))
-.pipe(process.stdout);
+.pipe(process.stdout)
 ```
 
 Try it with:
@@ -105,4 +107,3 @@ Copyright (c) 2014- Commenthol. (MIT License)
 See [LICENSE][] for more info.
 
 [LICENSE]: ./LICENSE
-[readable-stream]: https://github.com/isaacs/readable-stream

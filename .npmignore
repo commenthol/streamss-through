@@ -9,3 +9,4 @@ Makefile
 *.log
 .nyc_output/
 examples/
+tsconfig.json

@@ -6,11 +6,10 @@
 
 'use strict'
 
-var util = require('util')
-var Transform = require('stream').Transform
+const { Transform } = require('stream')
 
 // / wrappers for sync mode
-var wrap = {
+const wrap = {
   transform: function (fn) {
     return function (chunk, enc, done) {
       fn.call(this, chunk, enc)
@@ -38,70 +37,65 @@ var wrap = {
  * @param {Function} [transform] - Function called on transform
  * @param {Function} [flush] - Function called on flush
  */
-function Through (options, transform, flush) {
-  var self = this
+class Through extends Transform {
+  constructor (options, transform, flush) {
+    if (typeof options === 'function') {
+      flush = transform
+      transform = options
+      options = {}
+    }
+    options = options || {}
+    super(options)
 
-  if (!(this instanceof Through)) {
+    if (typeof transform !== 'function') {
+      transform = function (data) {
+        this.push(data)
+      }
+    }
+    if (typeof flush !== 'function') {
+      flush = null
+    }
+
+    this._transform = transform
+    this._flush = flush
+
+    if (this._transform.length < 3) {
+      this._transform = wrap.transform.call(this, transform)
+    }
+    if (this._flush && this._flush.length < 1) {
+      this._flush = wrap.flush.call(this, flush)
+    }
+
+    this.on('pipe', (src) => {
+      if (options.passError !== false) {
+        src.on('error', (err) => {
+          this.emit('error', err)
+        })
+      }
+    })
+  }
+
+  static through (...args) {
+    return new Through(...args)
+  }
+
+  /**
+   * Shortcut for object mode
+   *
+   * @param {Object} [options] - Stream options
+   * @param {Function} transform - Function called on transform
+   * @param {Function} flush - Function called on flush
+   */
+  static throughObj (options, transform, flush) {
+    // istanbul ignore else
+    if (typeof options === 'function') {
+      flush = transform
+      transform = options
+      options = {}
+    }
+    options = Object.assign({ objectMode: true }, options)
     return new Through(options, transform, flush)
   }
-
-  if (typeof options === 'function') {
-    flush = transform
-    transform = options
-    options = {}
-  }
-
-  options = options || {}
-  Transform.call(this, options)
-
-  if (typeof transform !== 'function') {
-    transform = function (data) {
-      this.push(data)
-    }
-  }
-  if (typeof flush !== 'function') {
-    flush = null
-  }
-
-  this._transform = transform
-  this._flush = flush
-
-  self.on('pipe', function (src) {
-    if (options.passError !== false) {
-      src.on('error', function (err) {
-        self.emit('error', err)
-      })
-    }
-  })
-
-  if (this._transform.length < 3) {
-    this._transform = wrap.transform.call(this, transform)
-  }
-  if (this._flush && this._flush.length < 1) {
-    this._flush = wrap.flush.call(this, flush)
-  }
-
-  return this
-}
-
-util.inherits(Through, Transform)
-
-/**
- * Shortcut for object mode
- *
- * @param {Object} [options] - Stream options
- * @param {Function} transform - Function called on transform
- * @param {Function} flush - Function called on flush
- */
-Through.obj = function (options, transform, flush) {
-  // istanbul ignore else
-  if (typeof options === 'function') {
-    flush = transform
-    transform = options
-    options = {}
-  }
-  options = Object.assign({ objectMode: true }, options)
-  return new Through(options, transform, flush)
 }
 
 module.exports = Through

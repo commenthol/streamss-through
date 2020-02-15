@@ -48,8 +48,9 @@ class Through extends Transform {
     super(options)
 
     if (typeof transform !== 'function') {
-      transform = function (data) {
+      transform = function (data, encoding, done) {
         this.push(data)
+        done()
       }
     }
     if (typeof flush !== 'function') {
